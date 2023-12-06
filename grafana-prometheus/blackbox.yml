@@ -1,0 +1,14 @@
+modules:
+  http_2xx:  # Defines an HTTP module named 'http_2xx'
+    prober: http  # Specifies that this module uses the HTTP prober
+    timeout: 10s  # Sets the timeout for the probe to 5 seconds
+    http:
+      valid_http_versions: [HTTP/1.1, HTTP/2]  # Acceptable HTTP versions for the probe
+      method: GET  # HTTP method to use for the probe (GET request)
+      preferred_ip_protocol: "ip4"
+
+  icmp:  # Defines an ICMP module named 'icmp'
+    prober: icmp  # Specifies that this module uses the ICMP prober
+    timeout: 5s  # Sets the timeout for the probe to 5 seconds
+    icmp:
+      preferred_ip_protocol: ipv4  # Use IPv4 for ICMP requests

@@ -1,0 +1,11 @@
+groups:
+  - name: example_alerts  # Name of the alerting group
+    rules:
+      - alert: InstanceDown  # Alert name
+        expr: up == 0  # Expression for the alert (targets being down)
+        for: 5m  # Duration before firing the alert
+        labels:
+          severity: critical  # Severity label for the alert
+        annotations:
+          summary: "Instance {{ $labels.instance }} down"  # Summary annotation for the alert
+          description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes."  # Description annotation

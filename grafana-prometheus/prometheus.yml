@@ -1,0 +1,59 @@
+global:
+  scrape_interval: 15s # How often to scrape targets by default
+  evaluation_interval: 15s # How often to evaluate rules
+  scrape_timeout: 10s # Timeout before a scrape request is considered failed
+
+# Alertmanager configuration
+# alerting:
+#   alertmanagers:
+#     - static_configs:
+#         - targets:
+#             - 'alertmanager:9093'
+# Uncomment above lines to configure Alertmanager integration. 
+# Alertmanager handles alerts sent by client applications such as the Prometheus server.
+
+# Rule files (if you have alerting rules)
+# rule_files:
+#   - 'prometheus_rules.yml'
+# Uncomment above lines to load alerting rules from the specified file. 
+# This is where you define conditions under which alerts should be fired.
+
+# Define how Prometheus finds targets to scrape
+scrape_configs:
+  # Scrape Prometheus itself
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+    # This job scrapes metrics from Prometheus itself, useful for monitoring its performance.
+
+  - job_name: 'node'
+    static_configs:
+      - targets: ['node_exporter:9100']
+    # This job scrapes metrics from Node Exporter, which exposes hardware and OS metrics.
+
+  - job_name: 'cadvisor'
+    static_configs:
+      - targets: ['cadvisor:8080']
+    # This job scrapes metrics from cAdvisor, monitoring container performance metrics.
+
+  - job_name: 'blackbox'
+    metrics_path: /probe
+    params:
+      module: [http_2xx]  # Use a module defined in the blackbox.yml
+    static_configs:
+      - targets:
+        - https://google.com
+    # This job uses the Blackbox Exporter to probe external endpoints (like websites).
+
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox_exporter:9115  # Blackbox exporter address
+    # The relabel_configs section here dynamically adjusts labels for the Blackbox Exporter
+    # to correctly target and label the metrics collected from probes.
+        
+  # Add more jobs here for other services in your environment
+  # You can add more scrape jobs for different targets as needed.

@@ -1,0 +1,3 @@
+basic_auth_users:
+    admin: $2b$12$Pi/OB5uH9EPouVtRMO0fueLDAFZ8VVeobkDgv8Bfqw8QixkMVaFWC  # Basic auth credentials (bcrypt hashed password)
+    # 'admin' is the username, and the following hash is the bcrypt password
