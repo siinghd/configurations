@@ -54,6 +54,9 @@ scrape_configs:
         replacement: blackbox_exporter:9115  # Blackbox exporter address
     # The relabel_configs section here dynamically adjusts labels for the Blackbox Exporter
     # to correctly target and label the metrics collected from probes.
-        
+  
+  - job_name: 'mongodb'
+    static_configs:
+      - targets: ['mongodb_exporter:9216']      
   # Add more jobs here for other services in your environment
   # You can add more scrape jobs for different targets as needed.
